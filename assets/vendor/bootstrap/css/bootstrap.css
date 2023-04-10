@@ -5873,7 +5873,7 @@ textarea.form-control-lg {
 
 .carousel-fade .carousel-item {
   opacity: 0;
-  transition-restaurant: opacity;
+  transition-property: opacity;
   transform: none;
 }
 .carousel-fade .carousel-item.active,

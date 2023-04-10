@@ -1248,7 +1248,7 @@ a:hover {
 }
 
 /*======================================
-//--//-->   restaurant - CARD-A
+//--//-->   PROPERTY - CARD-A
 ======================================*/
 @media (min-width: 768px) {
   .card-box-a:hover .card-overlay-a-content {
@@ -1397,38 +1397,38 @@ a:hover {
   }
 }
 
-/*------/ restaurant Grid /-----*/
-.restaurant-grid .grid-option {
+/*------/ Property Grid /-----*/
+.property-grid .grid-option {
   text-align: right;
   margin-bottom: 2rem;
 }
 
-.restaurant-grid .grid-option .custom-select {
+.property-grid .grid-option .custom-select {
   border-radius: 0;
   width: 200px;
   border-color: #313131;
 }
 
-.restaurant-grid .grid-option .custom-select:hover,
-.restaurant-grid .grid-option .custom-select:active,
-.restaurant-grid .grid-option .custom-select:focus {
+.property-grid .grid-option .custom-select:hover,
+.property-grid .grid-option .custom-select:active,
+.property-grid .grid-option .custom-select:focus {
   border-color: #313131;
 }
 
-.restaurant-grid .grid-option .custom-select option {
+.property-grid .grid-option .custom-select option {
   border-color: #313131;
 }
 
-/*------/ restaurant Single /-----*/
-.gallery-restaurant {
+/*------/ Property Single /-----*/
+.gallery-property {
   margin-bottom: 3rem;
 }
 
-.restaurant-price {
+.property-price {
   margin: 0 auto;
 }
 
-.restaurant-price .card-header-c {
+.property-price .card-header-c {
   padding: 0;
 }
 
@@ -1447,26 +1447,26 @@ a:hover {
 }
 
 @media (max-width: 767px) {
-  .restaurant-agent {
+  .property-agent {
     margin-top: 2.5rem;
   }
 }
 
-.restaurant-agent .title-agent {
+.property-agent .title-agent {
   font-weight: 600;
 }
 
-.restaurant-agent ul {
+.property-agent ul {
   line-height: 2;
   color: #000000;
 }
 
-.restaurant-agent .socials-a {
+.property-agent .socials-a {
   text-align: center;
 }
 
 @media (max-width: 991px) {
-  .restaurant-contact {
+  .property-contact {
     margin-top: 2.5rem;
   }
 }

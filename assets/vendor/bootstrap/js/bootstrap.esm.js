@@ -131,7 +131,7 @@ const isVisible = element => {
     return false;
   }
 
-  const elementIsVisible = getComputedStyle(element).getrestaurantValue('visibility') === 'visible'; // Handle `details` element as its content may falsie appear visible when it is closed
+  const elementIsVisible = getComputedStyle(element).getPropertyValue('visibility') === 'visible'; // Handle `details` element as its content may falsie appear visible when it is closed
 
   const closedDetails = element.closest('details:not([open])');
 
@@ -575,7 +575,7 @@ function hydrateObj(obj, meta) {
     try {
       obj[key] = value;
     } catch (_unused) {
-      Object.definerestaurant(obj, key, {
+      Object.defineProperty(obj, key, {
         configurable: true,
 
         get() {
@@ -759,13 +759,13 @@ class Config {
   }
 
   _typeCheckConfig(config, configTypes = this.constructor.DefaultType) {
-    for (const restaurant of Object.keys(configTypes)) {
-      const expectedTypes = configTypes[restaurant];
-      const value = config[restaurant];
+    for (const property of Object.keys(configTypes)) {
+      const expectedTypes = configTypes[property];
+      const value = config[property];
       const valueType = isElement(value) ? 'element' : toType(value);
 
       if (!new RegExp(expectedTypes).test(valueType)) {
-        throw new TypeError(`${this.constructor.NAME.toUpperCase()}: Option "${restaurant}" provided type "${valueType}" but expected type "${expectedTypes}".`);
+        throw new TypeError(`${this.constructor.NAME.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
       }
     }
   }
@@ -806,8 +806,8 @@ class BaseComponent extends Config {
     Data.remove(this._element, this.constructor.DATA_KEY);
     EventHandler.off(this._element, this.constructor.EVENT_KEY);
 
-    for (const restaurantName of Object.getOwnrestaurantNames(this)) {
-      this[restaurantName] = null;
+    for (const propertyName of Object.getOwnPropertyNames(this)) {
+      this[propertyName] = null;
     }
   }
 
@@ -2207,10 +2207,10 @@ class Dropdown extends BaseComponent {
 
     if (parentDropdown.classList.contains(CLASS_NAME_DROPDOWN_CENTER)) {
       return PLACEMENT_BOTTOMCENTER;
-    } // We need to trim the value because custom restaurants can also include spaces
+    } // We need to trim the value because custom properties can also include spaces
 
 
-    const isEnd = getComputedStyle(this._menu).getrestaurantValue('--bs-position').trim() === 'end';
+    const isEnd = getComputedStyle(this._menu).getPropertyValue('--bs-position').trim() === 'end';
 
     if (parentDropdown.classList.contains(CLASS_NAME_DROPUP)) {
       return isEnd ? PLACEMENT_TOPEND : PLACEMENT_TOP;
@@ -2408,8 +2408,8 @@ defineJQueryPlugin(Dropdown);
 
 const SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top';
 const SELECTOR_STICKY_CONTENT = '.sticky-top';
-const restaurant_PADDING = 'padding-right';
-const restaurant_MARGIN = 'margin-right';
+const PROPERTY_PADDING = 'padding-right';
+const PROPERTY_MARGIN = 'margin-right';
 /**
  * Class definition
  */
@@ -2432,22 +2432,22 @@ class ScrollBarHelper {
     this._disableOverFlow(); // give padding to element to balance the hidden scrollbar width
 
 
-    this._setElementAttributes(this._element, restaurant_PADDING, calculatedValue => calculatedValue + width); // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
+    this._setElementAttributes(this._element, PROPERTY_PADDING, calculatedValue => calculatedValue + width); // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
 
 
-    this._setElementAttributes(SELECTOR_FIXED_CONTENT, restaurant_PADDING, calculatedValue => calculatedValue + width);
+    this._setElementAttributes(SELECTOR_FIXED_CONTENT, PROPERTY_PADDING, calculatedValue => calculatedValue + width);
 
-    this._setElementAttributes(SELECTOR_STICKY_CONTENT, restaurant_MARGIN, calculatedValue => calculatedValue - width);
+    this._setElementAttributes(SELECTOR_STICKY_CONTENT, PROPERTY_MARGIN, calculatedValue => calculatedValue - width);
   }
 
   reset() {
     this._resetElementAttributes(this._element, 'overflow');
 
-    this._resetElementAttributes(this._element, restaurant_PADDING);
+    this._resetElementAttributes(this._element, PROPERTY_PADDING);
 
-    this._resetElementAttributes(SELECTOR_FIXED_CONTENT, restaurant_PADDING);
+    this._resetElementAttributes(SELECTOR_FIXED_CONTENT, PROPERTY_PADDING);
 
-    this._resetElementAttributes(SELECTOR_STICKY_CONTENT, restaurant_MARGIN);
+    this._resetElementAttributes(SELECTOR_STICKY_CONTENT, PROPERTY_MARGIN);
   }
 
   isOverflowing() {
@@ -2461,7 +2461,7 @@ class ScrollBarHelper {
     this._element.style.overflow = 'hidden';
   }
 
-  _setElementAttributes(selector, stylerestaurant, callback) {
+  _setElementAttributes(selector, styleProperty, callback) {
     const scrollbarWidth = this.getWidth();
 
     const manipulationCallBack = element => {
@@ -2469,34 +2469,34 @@ class ScrollBarHelper {
         return;
       }
 
-      this._saveInitialAttribute(element, stylerestaurant);
+      this._saveInitialAttribute(element, styleProperty);
 
-      const calculatedValue = window.getComputedStyle(element).getrestaurantValue(stylerestaurant);
-      element.style.setrestaurant(stylerestaurant, `${callback(Number.parseFloat(calculatedValue))}px`);
+      const calculatedValue = window.getComputedStyle(element).getPropertyValue(styleProperty);
+      element.style.setProperty(styleProperty, `${callback(Number.parseFloat(calculatedValue))}px`);
     };
 
     this._applyManipulationCallback(selector, manipulationCallBack);
   }
 
-  _saveInitialAttribute(element, stylerestaurant) {
-    const actualValue = element.style.getrestaurantValue(stylerestaurant);
+  _saveInitialAttribute(element, styleProperty) {
+    const actualValue = element.style.getPropertyValue(styleProperty);
 
     if (actualValue) {
-      Manipulator.setDataAttribute(element, stylerestaurant, actualValue);
+      Manipulator.setDataAttribute(element, styleProperty, actualValue);
     }
   }
 
-  _resetElementAttributes(selector, stylerestaurant) {
+  _resetElementAttributes(selector, styleProperty) {
     const manipulationCallBack = element => {
-      const value = Manipulator.getDataAttribute(element, stylerestaurant); // We only want to remove the restaurant if the value is `null`; the value can also be zero
+      const value = Manipulator.getDataAttribute(element, styleProperty); // We only want to remove the property if the value is `null`; the value can also be zero
 
       if (value === null) {
-        element.style.removerestaurant(stylerestaurant);
+        element.style.removeProperty(styleProperty);
         return;
       }
 
-      Manipulator.removeDataAttribute(element, stylerestaurant);
-      element.style.setrestaurant(stylerestaurant, value);
+      Manipulator.removeDataAttribute(element, styleProperty);
+      element.style.setProperty(styleProperty, value);
     };
 
     this._applyManipulationCallback(selector, manipulationCallBack);
@@ -3072,13 +3072,13 @@ class Modal extends BaseComponent {
     const isBodyOverflowing = scrollbarWidth > 0;
 
     if (isBodyOverflowing && !isModalOverflowing) {
-      const restaurant = isRTL() ? 'paddingLeft' : 'paddingRight';
-      this._element.style[restaurant] = `${scrollbarWidth}px`;
+      const property = isRTL() ? 'paddingLeft' : 'paddingRight';
+      this._element.style[property] = `${scrollbarWidth}px`;
     }
 
     if (!isBodyOverflowing && isModalOverflowing) {
-      const restaurant = isRTL() ? 'paddingRight' : 'paddingLeft';
-      this._element.style[restaurant] = `${scrollbarWidth}px`;
+      const property = isRTL() ? 'paddingRight' : 'paddingLeft';
+      this._element.style[property] = `${scrollbarWidth}px`;
     }
   }
 
