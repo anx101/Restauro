@@ -118,9 +118,9 @@
   });
 
   /**
-   * Property carousel
+   * restaurant carousel
    */
-  new Swiper('#property-carousel', {
+  new Swiper('#restaurant-carousel', {
     speed: 600,
     loop: true,
     autoplay: {
@@ -129,7 +129,7 @@
     },
     slidesPerView: 'auto',
     pagination: {
-      el: '.propery-carousel-pagination',
+      el: '.restaurant-carousel-pagination',
       type: 'bullets',
       clickable: true
     },
@@ -194,9 +194,9 @@
   });
 
   /**
-   * Property Single carousel
+   * restaurant Single carousel
    */
-  new Swiper('#property-single-carousel', {
+  new Swiper('#restaurant-single-carousel', {
     speed: 600,
     loop: true,
     autoplay: {
@@ -204,7 +204,7 @@
       disableOnInteraction: false
     },
     pagination: {
-      el: '.property-single-carousel-pagination',
+      el: '.restaurant-single-carousel-pagination',
       type: 'bullets',
       clickable: true
     }
